@@ -1,15 +1,10 @@
-import { ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from 'discord.js';
+import type { ChatInputCommandInteraction } from 'discord.js';
+import { MessageFlags, SlashCommandBuilder } from 'discord.js';
+import type { AppCommand } from './command.js';
 // Importamos:
 // - ChatInputCommandInteraction: tipo del slash command ya ejecutado.
 // - SlashCommandBuilder: constructor para definir el comando que se registra.
 // - MessageFlags: permite marcar respuestas efimeras sin usar `ephemeral` (deprecated).
-
-export const uptimeCommand = new SlashCommandBuilder()
-  .setName('uptime')
-  .setDescription('Muestra cuanto tiempo lleva encendido el bot');
-// Definimos el comando slash:
-// - setName('uptime'): el usuario escribira /uptime
-// - setDescription(...): texto visible en Discord cuando aparece el comando.
 
 function formatDuration(ms: number): string {
   // Funcion helper para convertir milisegundos a un formato legible.
@@ -67,3 +62,14 @@ export async function handleUptime(interaction: ChatInputCommandInteraction): Pr
   // Respondemos al slash command.
   // flags: Ephemeral hace que solo el usuario vea la respuesta.
 }
+
+export const uptimeCommand: AppCommand = {
+  name: 'uptime',
+  data: new SlashCommandBuilder()
+    .setName('uptime')
+    .setDescription('Muestra cuanto tiempo lleva encendido el bot'),
+  // Definimos el comando slash:
+  // - setName('uptime'): el usuario escribira /uptime
+  // - setDescription(...): texto visible en Discord cuando aparece el comando.
+  execute: handleUptime,
+};

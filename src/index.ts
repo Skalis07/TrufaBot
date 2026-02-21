@@ -6,13 +6,8 @@ import { Client, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
 // Events: enum con nombres de eventos oficiales.
 // GatewayIntentBits: permisos de eventos que recibira el bot.
 // MessageFlags: permite marcar respuestas como efimeras sin usar la opcion deprecated `ephemeral`.
-
-import { handlePing } from './modules/commands/ping.js';
-// Reusamos el handler de ping separado en su modulo.
-import { handleHelp } from './modules/commands/help.js';
-// Nuevo: handler de /help.
-import { handleUptime } from './modules/commands/uptime.js';
-// Nuevo: handler de /uptime.
+import { commandMap } from './modules/commands/command-registry.js';
+// commandMap centraliza el router de comandos en un unico lugar.
 
 const token = process.env.DISCORD_TOKEN;
 if (!token) throw new Error('DISCORD_TOKEN no definido en .env');
@@ -37,20 +32,12 @@ client.on(Events.InteractionCreate, async (interaction) => {
   // Evita errores de tipos y ramas innecesarias.
 
   try {
-    // Router por nombre de comando.
-    // Cada comando se delega a su handler para mantener index.ts limpio.
-    if (interaction.commandName === 'ping') {
-      await handlePing(interaction);
-      return;
-    }
+    // Router automatico por nombre.
+    // Ya no repetimos ifs por cada comando.
+    const command = commandMap.get(interaction.commandName);
 
-    if (interaction.commandName === 'help') {
-      await handleHelp(interaction);
-      return;
-    }
-
-    if (interaction.commandName === 'uptime') {
-      await handleUptime(interaction);
+    if (command) {
+      await command.execute(interaction);
       return;
     }
 

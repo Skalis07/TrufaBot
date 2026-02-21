@@ -6,13 +6,8 @@ import { REST, Routes } from 'discord.js';
 // REST: cliente HTTP para pegarle a la API de Discord.
 // Routes: helpers para construir endpoints correctos.
 
-import { pingCommand } from '../src/modules/commands/ping.js';
-// Importamos la definicion del comando.
-// Ojo: usamos .js en el import por ESM/nodenext (explicado al final).
-import { helpCommand } from '../src/modules/commands/help.js';
-// Nuevo: definicion de /help.
-import { uptimeCommand } from '../src/modules/commands/uptime.js';
-// Nuevo: definicion de /uptime.
+import { commandJson } from '../src/modules/commands/command-registry.js';
+// commandJson ya trae todos los comandos listos para registrar.
 
 const token = process.env.DISCORD_TOKEN;
 const clientId = process.env.CLIENT_ID;
@@ -32,21 +27,12 @@ const guildIds = guildIdsRaw
 // Permitimos uno o varios guild IDs separados por coma.
 // trim() limpia espacios, filter(Boolean) quita vacios.
 
-const commands = [
-  pingCommand.toJSON(),
-  helpCommand.toJSON(),
-  uptimeCommand.toJSON(),
-];
-// Discord REST recibe JSON plano, no objetos SlashCommandBuilder.
-// toJSON() transforma el builder al formato esperado por API.
-// Si agregas otro comando, debes sumarlo aqui.
-
 const rest = new REST({ version: '10' }).setToken(token);
 // Cliente REST de Discord API v10 autenticado con token de bot.
 
 for (const guildId of guildIds) {
   await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
-    body: commands,
+    body: commandJson,
   });
   // applicationGuildCommands = registro en servidor especifico (rapido).
   // PUT reemplaza el set completo de comandos de esa app en ese guild.

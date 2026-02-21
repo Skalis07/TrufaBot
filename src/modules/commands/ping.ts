@@ -1,14 +1,9 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
+import type { ChatInputCommandInteraction } from 'discord.js';
+import { SlashCommandBuilder } from 'discord.js';
+import type { AppCommand } from './command.js';
 // Importamos:
 // - ChatInputCommandInteraction: tipo del slash command ya ejecutado.
 // - SlashCommandBuilder: constructor para definir el comando que se registra.
-
-export const pingCommand = new SlashCommandBuilder()
-  .setName('ping')
-  .setDescription('Responde con Pong y latencia');
-// Definimos el comando slash:
-// - setName('ping'): el usuario escribira /ping
-// - setDescription(...): texto visible en Discord cuando aparece el comando.
 
 export async function handlePing(interaction: ChatInputCommandInteraction): Promise<void> {
   // Handler que se ejecuta cuando un usuario usa /ping.
@@ -45,3 +40,14 @@ export async function handlePing(interaction: ChatInputCommandInteraction): Prom
   // Editamos la respuesta original con los valores finales.
   // Usamos editReply porque una interacción solo puede responderse una vez.
 }
+
+export const pingCommand: AppCommand = {
+  name: 'ping',
+  data: new SlashCommandBuilder()
+    .setName('ping')
+    .setDescription('Responde con Pong y latencia'),
+  // Definimos el comando slash:
+  // - setName('ping'): el usuario escribira /ping
+  // - setDescription(...): texto visible en Discord cuando aparece el comando.
+  execute: handlePing,
+};

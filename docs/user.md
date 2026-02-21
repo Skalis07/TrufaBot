@@ -216,96 +216,138 @@ Checklist (estado actual):
 - [x] `.gitignore` creado.
 - [x] `.gitignore` incluye `.env`.
 
-## 5) Preparar slash commands
+## 5) Preparar slash commands (arquitectura escalable)
 
-Este paso es clave para que aparezcan `/ping`, `/help`, `/uptime` en tu servidor.
+Este paso es clave para que aparezcan `/ping`, `/help`, `/uptime` y para no repetir logica cuando agregues comandos nuevos.
 
-### 5.1 Definir comandos en codigo
+### 5.1 Estructura actual de comandos
 
-Crea la definicion del slash command y su handler.
-Archivo actual: `src/modules/utility/application/commands/ping.ts`.
+Carpeta actual:
 
-Que ya hiciste en este archivo:
+- `src/modules/commands/`
 
-- `pingCommand` con `new SlashCommandBuilder()`.
-- `setName('ping')` y `setDescription(...)` para registrar `/ping`.
-- `handlePing(interaction)` como funcion de ejecucion.
-- Medicion de `wsPing` usando `interaction.client.ws.ping`.
-- Respuesta inicial con:
-  - `interaction.reply({ content: 'Pinging...', withResponse: true })`
-- Calculo de `httpPing` cuando hay `response.resource?.message`.
-- Fallback seguro si `message` no viene en la respuesta.
-- `interaction.editReply(...)` para mostrar resultado final (`WS` y `HTTP`).
+Archivos actuales:
 
-Nota tecnica importante:
-- En una interaccion solo puedes responder una vez con `reply()`.
-- Por eso la respuesta final se hace con `editReply()`.
+- `src/modules/commands/command.ts`
+- `src/modules/commands/command-registry.ts`
+- `src/modules/commands/ping.ts`
+- `src/modules/commands/help.ts`
+- `src/modules/commands/uptime.ts`
 
-### 5.2 Crear script de registro
+Que hace cada archivo:
 
-Archivo actual: `scripts/register-commands.ts`.
-Este script publica comandos con `REST` + `Routes`.
+- `command.ts`: define el tipo `AppCommand` (contrato comun de todos los comandos).
+- `command-registry.ts`: fuente unica de verdad de comandos.
+- `ping.ts`, `help.ts`, `uptime.ts`: implementan cada comando y exportan su objeto `AppCommand`.
 
-Flujo del script:
+### 5.2 Contrato comun de comando (`command.ts`)
+
+El tipo `AppCommand` obliga a que cada comando tenga:
+
+- `name`: nombre del slash command.
+- `data`: `SlashCommandBuilder` para registro.
+- `execute(interaction)`: handler de ejecucion.
+
+Beneficio:
+
+- Todos los comandos tienen la misma forma.
+- Menos errores al escalar.
+
+### 5.3 Registro central (`command-registry.ts`)
+
+Este archivo centraliza todo:
+
+1. `commandList`: lista unica de comandos.
+2. Validacion de nombres duplicados (error temprano si repites nombre).
+3. `commandMap`: mapa para ejecutar comandos en runtime.
+4. `commandJson`: array serializado para registrar en Discord.
+
+Beneficio:
+
+- Ya no duplicas lista de comandos en `index.ts` y `register-commands.ts`.
+
+### 5.4 Implementacion de cada comando (`ping/help/uptime`)
+
+Patron que sigue cada archivo:
+
+1. Funcion de negocio (`handlePing`, `handleHelp`, `handleUptime`).
+2. Objeto exportado `XCommand: AppCommand` con:
+   - `name`
+   - `data` con `SlashCommandBuilder`
+   - `execute` apuntando al handler
+
+Ejemplo real aplicado:
+
+- `ping.ts`: mide latencia WS y HTTP con fallback seguro.
+- `help.ts`: responde lista de comandos en modo efimero.
+- `uptime.ts`: calcula y formatea tiempo encendido, respuesta efimera.
+
+### 5.5 Script de registro (`scripts/register-commands.ts`)
+
+Flujo actual del script:
 
 1. Cargar `.env` (`DISCORD_TOKEN`, `CLIENT_ID`, `GUILD_IDS`).
-2. Validar que las 3 variables existan (si no, lanza error).
-3. Parsear `GUILD_IDS` (acepta varios IDs separados por coma).
-4. Construir `commands` con `pingCommand.toJSON()`.
-5. Crear cliente REST autenticado.
-6. Registrar en cada guild con `Routes.applicationGuildCommands`.
-7. Mostrar log de exito o error.
+2. Validar variables requeridas.
+3. Parsear `GUILD_IDS` (uno o varios, separados por coma).
+4. Importar `commandJson` desde `command-registry.ts`.
+5. Registrar en cada guild con `Routes.applicationGuildCommands`.
 
-Nota tecnica:
-- El import usa `.js` aunque los archivos sean `.ts` por ESM + `nodenext`.
-
-### 5.3 Agregar script en package.json
-
-Ya agregado en `package.json`:
-
-```json
-{
-  "scripts": {
-    "commands:register": "tsx scripts/register-commands.ts"
-  }
-}
-```
-
-### 5.4 Ejecutar registro
+Comando:
 
 ```powershell
 npm run commands:register
 ```
 
-Que hace el comando:
+Que hace:
 
-- Ejecuta el script de registro para publicar/actualizar slash commands en Discord.
-- Reemplaza el set de comandos del bot en el/los guild(s) indicados.
+- Publica/actualiza todos los comandos del registry.
+- Reemplaza el set de comandos del bot en cada guild configurado.
 
-### 5.5 Verificar en Discord
+### 5.6 Runtime (`src/index.ts`)
 
-1. Espera unos segundos despues de registrar.
-2. Escribe `/` en tu servidor.
-3. Confirma que aparece `/ping`.
-4. Ejecuta `/ping` y valida que responda algo como:
-   - `Pong! WS: ...ms | HTTP: ...ms`
+Flujo actual de ejecucion:
 
-Si cambias nombre/opciones/descripcion de comandos:
+1. Recibe interacciones.
+2. Filtra solo `ChatInputCommand`.
+3. Busca el comando en `commandMap` por `interaction.commandName`.
+4. Si existe, ejecuta `command.execute(interaction)`.
+5. Si no existe, responde `Comando no implementado.`
+
+Beneficio:
+
+- Router automatico por mapa.
+- No hay `if`/`switch` repetitivos por cada comando nuevo.
+
+### 5.7 Verificar en Discord
+
+1. Correr `npm run commands:register`.
+2. Levantar bot con `npm run dev`.
+3. En Discord escribir `/` y confirmar:
+   - `/ping`
+   - `/help`
+   - `/uptime`
+4. Ejecutar los tres y validar respuesta.
+
+Si cambias nombre/opciones/descripcion:
+
 - vuelve a correr `npm run commands:register`.
 
-### 5.6 Guild vs Global (para no perder tiempo)
+### 5.8 Guild vs Global (para no perder tiempo)
 
-- `Guild commands`: se reflejan casi al instante (ideal para desarrollo).
-- `Global commands`: pueden tardar bastante en propagarse.
+- `Guild commands`: casi instantaneo (ideal para desarrollo).
+- `Global commands`: propagacion mas lenta.
 
 Checklist (estado actual):
 
-- [x] Comando `/ping` definido en `src/modules/utility/application/commands/ping.ts`.
-- [x] Handler `handlePing` implementado (latencia WS + HTTP + fallback).
-- [x] `scripts/register-commands.ts` creado.
-- [x] Script `commands:register` en `package.json`.
-- [x] `npm run commands:register` ejecutado sin error.
-- [x] `/ping` visible y funcional en Discord.
+- [x] `src/modules/commands/command.ts` creado.
+- [x] `src/modules/commands/command-registry.ts` creado.
+- [x] `/ping` implementado como `AppCommand`.
+- [x] `/help` implementado como `AppCommand`.
+- [x] `/uptime` implementado como `AppCommand`.
+- [x] `scripts/register-commands.ts` usa `commandJson`.
+- [x] `src/index.ts` usa `commandMap`.
+- [x] Script `commands:register` existe en `package.json`.
+- [ ] Validacion funcional manual de `/ping`, `/help`, `/uptime` en Discord (post-refactor).
 
 ## 6) Ejecutar y validar estado actual 🎫✅
 
@@ -344,91 +386,60 @@ Checklist (estado actual):
 - [x] Token validado (bot inicia sesion sin error de autenticacion).
 - [x] Validacion en Discord de `/ping`.
 
-## 7) Definir siguientes comandos (detalle completo)
+## 7) Definir siguientes comandos (desde arquitectura centralizada)
 
-Este punto continua exactamente desde donde quedaste con `/ping`.
+Este punto parte del estado actual con `command.ts` + `command-registry.ts`.
 
-### 7.1 Siguiente comando recomendado: `/help`
+### 7.1 Regla de oro al agregar un comando nuevo
 
-Archivo sugerido:
-- `src/modules/utility/application/commands/help.ts`
+Para agregar `/algo`:
 
-Contenido recomendado:
-- `helpCommand` con `SlashCommandBuilder`.
-- `setName('help')`.
-- `setDescription('Lista comandos disponibles')`.
-- `handleHelp(interaction)` que responda lista corta de comandos.
+1. Crear `src/modules/commands/algo.ts`.
+2. Exportar `algoCommand: AppCommand`.
+3. Importar y agregar `algoCommand` en `src/modules/commands/command-registry.ts`.
+4. Ejecutar `npm run commands:register`.
+5. Probar en Discord.
 
-Ejemplo de respuesta inicial:
-- `/ping`
-- `/help`
-- `/uptime`
+Importante:
 
-### 7.2 Comando `/uptime`
+- No deberias tocar `src/index.ts` para cada comando nuevo.
+- No deberias construir manualmente arrays de comandos en `register-commands.ts`.
 
-Archivo sugerido:
-- `src/modules/utility/application/commands/uptime.ts`
+### 7.2 Plantilla recomendada de comando
 
-Necesitas:
-- una referencia de tiempo de arranque (`startedAt`) en `src/index.ts` o en modulo separado.
-- `uptimeCommand` con builder.
-- `handleUptime(interaction)` que calcule `Date.now() - startedAt`.
+Estructura recomendada por archivo:
 
-Salida sugerida:
-- `Uptime: 12m 34s`
+1. imports (`SlashCommandBuilder`, `AppCommand`, tipos de interaction).
+2. funcion helper opcional (si necesitas logica extra).
+3. handler `async` con la respuesta.
+4. export `XCommand: AppCommand` con `name`, `data`, `execute`.
 
-### 7.3 Registrar nuevos comandos
+### 7.3 Siguiente foco funcional real
 
-Archivo:
-- `scripts/register-commands.ts`
+Orden recomendado:
 
-Cambios:
-1. importar `helpCommand`, `uptimeCommand`.
-2. ampliar array `commands`:
-   - `[pingCommand.toJSON(), helpCommand.toJSON(), uptimeCommand.toJSON()]`
-3. ejecutar de nuevo:
+1. Mantener estables `/ping`, `/help`, `/uptime` (smoke tests rapidos).
+2. Empezar modulo musica con `/play`.
+3. Continuar `/pause`, `/resume`, `/skip`, `/queue`, `/stop`.
+4. Cerrar cada comando con prueba manual en Discord.
 
-```powershell
-npm run commands:register
-```
+### 7.4 Checklist operativo por cada comando nuevo
 
-### 7.4 Enrutar nuevos handlers en runtime
+- [ ] Archivo nuevo en `src/modules/commands/`.
+- [ ] Exporta `XCommand: AppCommand`.
+- [ ] Agregado a `command-registry.ts`.
+- [ ] `npm run typecheck` sin errores.
+- [ ] `npm run commands:register` sin errores.
+- [ ] `npm run dev` ejecutando.
+- [ ] Prueba funcional en Discord.
 
-Archivo:
-- `src/index.ts`
+### 7.5 Hitos futuros (orden recomendado)
 
-Cambios:
-1. importar `handleHelp`, `handleUptime`.
-2. en `InteractionCreate`, agregar ramas por `interaction.commandName`:
-   - `help` -> `await handleHelp(interaction)`
-   - `uptime` -> `await handleUptime(interaction)`
-3. mantener fallback `Comando no implementado`.
-
-### 7.5 Ciclo correcto cada vez que agregas comando
-
-1. Definir comando (`builder + handler`).
-2. Registrar comando (`npm run commands:register`).
-3. Levantar/reiniciar bot (`npm run dev`).
-4. Probar en Discord.
-5. Si falla, revisar apendice de troubleshooting.
-
-Checklist (estado actual):
-
-- [x] `/ping` implementado y validado.
-- [ ] `/help` implementado.
-- [ ] `/uptime` implementado.
-- [ ] Nuevos comandos registrados con `commands:register`.
-- [ ] Nuevos handlers enrutados en `src/index.ts`.
-- [ ] Pruebas funcionales completadas en Discord.
-- [ ] `/help` validado en Discord.
-
-### 7.6 Hitos futuros (orden recomendado)
-
-1. Centralizar mapa de handlers (router automatico por modulos).
-2. Pasar `register-commands.ts` a fuente unica de comandos por modulo (mismo origen que runtime).
-3. Arrancar modulo de musica: primero `/play` y cola minima.
-4. Continuar con `/pause`, `/resume`, `/skip`, `/queue`, `/stop`.
-5. Reforzar pruebas funcionales despues de cada comando agregado.
+1. Implementar `/play` con cola minima.
+2. Definir estructura del modulo de musica (servicios, estado por guild, validaciones).
+3. Implementar `/pause`, `/resume`, `/skip`.
+4. Implementar `/queue`, `/stop`.
+5. Reforzar pruebas funcionales por cada comando agregado.
 
 ## Apendice A (Opcional) - Migracion a Lavalink
 
