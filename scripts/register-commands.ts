@@ -6,12 +6,12 @@ import { REST, Routes } from 'discord.js';
 // REST: cliente HTTP para pegarle a la API de Discord.
 // Routes: helpers para construir endpoints correctos.
 
-import { pingCommand } from '../src/modules/utility/application/commands/ping.js';
+import { pingCommand } from '../src/modules/commands/ping.js';
 // Importamos la definicion del comando.
 // Ojo: usamos .js en el import por ESM/nodenext (explicado al final).
-import { helpCommand } from '../src/modules/utility/application/commands/help.js';
+import { helpCommand } from '../src/modules/commands/help.js';
 // Nuevo: definicion de /help.
-import { uptimeCommand } from '../src/modules/utility/application/commands/uptime.js';
+import { uptimeCommand } from '../src/modules/commands/uptime.js';
 // Nuevo: definicion de /uptime.
 
 const token = process.env.DISCORD_TOKEN;

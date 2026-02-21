@@ -7,11 +7,11 @@ import { Client, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
 // GatewayIntentBits: permisos de eventos que recibira el bot.
 // MessageFlags: permite marcar respuestas como efimeras sin usar la opcion deprecated `ephemeral`.
 
-import { handlePing } from './modules/utility/application/commands/ping.js';
+import { handlePing } from './modules/commands/ping.js';
 // Reusamos el handler de ping separado en su modulo.
-import { handleHelp } from './modules/utility/application/commands/help.js';
+import { handleHelp } from './modules/commands/help.js';
 // Nuevo: handler de /help.
-import { handleUptime } from './modules/utility/application/commands/uptime.js';
+import { handleUptime } from './modules/commands/uptime.js';
 // Nuevo: handler de /uptime.
 
 const token = process.env.DISCORD_TOKEN;
