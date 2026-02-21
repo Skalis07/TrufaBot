@@ -1,7 +1,7 @@
-import { helpCommand } from './help.js';
-import { pingCommand } from './ping.js';
 import type { AppCommand } from './command.js';
-import { uptimeCommand } from './uptime.js';
+import { helpCommand } from '../modules/utility/help.js';
+import { pingCommand } from '../modules/utility/ping.js';
+import { uptimeCommand } from '../modules/utility/uptime.js';
 
 // Fuente unica de verdad de comandos.
 // Si agregas un nuevo comando, solo debes importarlo y sumarlo aqui.

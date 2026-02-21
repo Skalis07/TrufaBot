@@ -6,7 +6,7 @@ import { Client, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
 // Events: enum con nombres de eventos oficiales.
 // GatewayIntentBits: permisos de eventos que recibira el bot.
 // MessageFlags: permite marcar respuestas como efimeras sin usar la opcion deprecated `ephemeral`.
-import { commandMap } from './modules/commands/command-registry.js';
+import { commandMap } from './commands/command-registry.js';
 // commandMap centraliza el router de comandos en un unico lugar.
 
 const token = process.env.DISCORD_TOKEN;

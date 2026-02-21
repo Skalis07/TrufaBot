@@ -1,6 +1,6 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
 import { MessageFlags, SlashCommandBuilder } from 'discord.js';
-import type { AppCommand } from './command.js';
+import type { AppCommand } from '../../commands/command.js';
 // Importamos:
 // - ChatInputCommandInteraction: tipo del slash command ya ejecutado.
 // - SlashCommandBuilder: constructor para definir el comando que se registra.
