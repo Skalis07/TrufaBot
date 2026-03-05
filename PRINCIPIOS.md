@@ -28,7 +28,7 @@ Buscamos:
 - Crear servicios chicos donde aporte claridad.
 - Introducir factories donde simplifiquen bootstrap/composicion.
 - Definir puertos/adapters minimos donde el acoplamiento a librerias sea alto.
-- Actualizar documentacion (`docs/GUIA-HISTORICA.md`, `docs/discord-music-bot-architecture.md`) cuando cambie la estructura.
+- Actualizar documentacion ([docs/GUIA-HISTORICA.md](docs/GUIA-HISTORICA.md), [docs/discord-music-bot-architecture.md](docs/discord-music-bot-architecture.md)) cuando cambie la estructura.
 
 ### No incluye (por ahora)
 - Reescribir el bot completo.
@@ -502,7 +502,7 @@ Checklist:
 
 ## Fase 9 - Documentacion final alineada
 Objetivo:
-- que `docs/GUIA-HISTORICA.md` explique con precision la nueva estructura.
+- que [docs/GUIA-HISTORICA.md](docs/GUIA-HISTORICA.md) explique con precision la nueva estructura.
 
 Debe incluir:
 - mapa de carpetas actualizado
@@ -571,7 +571,7 @@ No lo crees si:
 - responsabilidades separadas en servicios chicos
 - bootstrap mas limpio y composicion clara
 - factories donde aportan valor real
-- codigo propio de TrufaBot entendible para junior con `docs/GUIA-HISTORICA.md`
+- codigo propio de TrufaBot entendible para junior con [docs/GUIA-HISTORICA.md](docs/GUIA-HISTORICA.md)
 
 ## 14) Reglas de commit (recomendadas)
 Un commit por slice/avance logico:
@@ -615,4 +615,4 @@ El exito es que:
 ### Pendiente (siguientes slices recomendados)
 - aplicar factories de composicion donde aporten valor (bootstrap/modulos/servicios)
 - seguir reduciendo acoplamiento directo a librerias externas con puertos/adapters minimos
-- limpiar imports/helpers residuales y documentar la nueva estructura en `docs/GUIA-HISTORICA.md`
+- limpiar imports/helpers residuales y documentar la nueva estructura en [docs/GUIA-HISTORICA.md](docs/GUIA-HISTORICA.md)

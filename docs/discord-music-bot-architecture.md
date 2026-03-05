@@ -5,8 +5,8 @@ Este archivo explica la arquitectura de musica a nivel macro.
 
 Para detalle paso a paso usa:
 
-- `docs/GUIA-HISTORICA.md` (flujo cronologico completo)
-- `docs/FUNCIONES_DETALLADAS.md` (archivo y funcion por funcion)
+- [docs/GUIA-HISTORICA.md](GUIA-HISTORICA.md) (flujo cronologico completo)
+- [docs/FUNCIONES_DETALLADAS.md](FUNCIONES_DETALLADAS.md) (archivo y funcion por funcion)
 
 ## 2) Stack actual
 - Runtime: Node.js + TypeScript
@@ -174,7 +174,6 @@ scripts/
 docs/
   GUIA-HISTORICA.md
   FUNCIONES_DETALLADAS.md
-  REVISION_TS_CHECKLIST.md
 ```
 
 ## 8) Operacion y calidad actual
@@ -188,6 +187,6 @@ docs/
 ## 9) Fuente de verdad documental
 Si ves diferencia entre documentos, toma este orden de verdad:
 
-1. `docs/GUIA-HISTORICA.md` (flujo real)
-2. `docs/FUNCIONES_DETALLADAS.md` (detalle de simbolos)
+1. [docs/GUIA-HISTORICA.md](GUIA-HISTORICA.md) (flujo real)
+2. [docs/FUNCIONES_DETALLADAS.md](FUNCIONES_DETALLADAS.md) (detalle de simbolos)
 3. este archivo (vista macro)

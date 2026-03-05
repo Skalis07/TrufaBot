@@ -8,7 +8,7 @@ La lectura recomendada es estrictamente en este orden:
 1. Entender el objetivo general del bot.
 2. Seguir la linea de tiempo de ejecucion real (desde que prende hasta que reproduce).
 3. Leer el mapa de capas para saber en que archivo vive cada responsabilidad.
-4. Revisar el catalogo completo de funciones desde `docs/FUNCIONES_DETALLADAS.md` cuando necesites detalle fino.
+4. Revisar el catalogo completo de funciones desde [docs/FUNCIONES_DETALLADAS.md](FUNCIONES_DETALLADAS.md) cuando necesites detalle fino.
 
 Si sigues ese orden, puedes abrir el proyecto y entender:
 
@@ -277,15 +277,13 @@ Estado actual despues de la limpieza aplicada:
 
 Para mantener esta guia legible y evitar desalineaciones por numeros de linea, el inventario completo de funciones se mantiene en archivos separados:
 
-- `docs/FUNCIONES_DETALLADAS.md`: detalle archivo por archivo y funcion por funcion (`src/` + `scripts/`, `.ts`/`.mjs`).
-- `docs/function-inventory.json`: inventario estructurado de los mismos archivos para busquedas/automatizacion.
-- `docs/REVISION_TS_CHECKLIST.md`: estado de revision tecnica y prioridades de refactor.
+- [docs/FUNCIONES_DETALLADAS.md](FUNCIONES_DETALLADAS.md): detalle archivo por archivo y funcion por funcion (`src/` + `scripts/`, `.ts`/`.mjs`).
+- [docs/function-inventory.json](function-inventory.json): inventario estructurado de los mismos archivos para busquedas/automatizacion.
 
 Regla de mantenimiento:
 
-1. Cuando cambie comportamiento en servicios/comandos, actualizar primero `GUIA-HISTORICA.md` (flujo).
-2. Luego sincronizar `FUNCIONES_DETALLADAS.md` y `function-inventory.json`.
-3. Si cambia complejidad/estado tecnico, reflejarlo en `REVISION_TS_CHECKLIST.md`.
+1. Cuando cambie comportamiento en servicios/comandos, actualizar primero [GUIA-HISTORICA.md](GUIA-HISTORICA.md) (flujo).
+2. Luego sincronizar [FUNCIONES_DETALLADAS.md](FUNCIONES_DETALLADAS.md) y [function-inventory.json](function-inventory.json).
 
-Con esto, `GUIA-HISTORICA.md` sigue enfocada en linea de tiempo, y el detalle fino vive donde corresponde.
+Con esto, [GUIA-HISTORICA.md](GUIA-HISTORICA.md) sigue enfocada en linea de tiempo, y el detalle fino vive donde corresponde.
 

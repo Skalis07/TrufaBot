@@ -26,9 +26,9 @@ El proyecto está pensado como base escalable para seguir agregando módulos y c
 
 Si tu objetivo es **estudiar el proyecto completo** (incluyendo flujo real, debugging y arquitectura del módulo de música), el documento principal es:
 
-- `docs/GUIA-HISTORICA.md`
+- [docs/GUIA-HISTORICA.md](docs/GUIA-HISTORICA.md)
 
-Si solo le vas a pasar **un archivo** a un junior para entender el proyecto de punta a punta, pasa `docs/GUIA-HISTORICA.md`.
+Si solo le vas a pasar **un archivo** a un junior para entender el proyecto de punta a punta, pasa [docs/GUIA-HISTORICA.md](docs/GUIA-HISTORICA.md).
 
 ---
 
@@ -49,14 +49,14 @@ También funciona como práctica avanzada de backend/eventos, manejo de estados 
 
 Para el detalle completo de arquitectura, flujo interno y evolución del proyecto:
 
-- `docs/GUIA-HISTORICA.md` (documento maestro: setup + historia + flujo + troubleshooting + onboarding archivo por archivo)
-- `docs/discord-music-bot-architecture.md` (visión macro / diseño arquitectónico y roadmap técnico)
+- [docs/GUIA-HISTORICA.md](docs/GUIA-HISTORICA.md) (documento maestro: setup + historia + flujo + troubleshooting + onboarding archivo por archivo)
+- [docs/discord-music-bot-architecture.md](docs/discord-music-bot-architecture.md) (visión macro / diseño arquitectónico y roadmap técnico)
 
 ### Orden recomendado de lectura (GitHub / onboarding)
 
-1. `README.md` (esta portada)
-2. `docs/GUIA-HISTORICA.md` (lectura principal; suficiente para entender el proyecto completo)
-3. `docs/discord-music-bot-architecture.md` (visión de alto nivel y crecimiento futuro)
+1. [README.md](README.md) (esta portada)
+2. [docs/GUIA-HISTORICA.md](docs/GUIA-HISTORICA.md) (lectura principal; suficiente para entender el proyecto completo)
+3. [docs/discord-music-bot-architecture.md](docs/discord-music-bot-architecture.md) (visión de alto nivel y crecimiento futuro)
 
 ---
 
@@ -320,6 +320,6 @@ Proyecto en estado **MVP funcional**, con foco actual en:
 
 Documentación:
 
-- `README` orientado a uso/entrada rápida
-- `docs/GUIA-HISTORICA.md` orientado a aprendizaje completo del proyecto
-- `docs/discord-music-bot-architecture.md` orientado a diseño y evolución
+- [README.md](README.md) orientado a uso/entrada rápida
+- [docs/GUIA-HISTORICA.md](docs/GUIA-HISTORICA.md) orientado a aprendizaje completo del proyecto
+- [docs/discord-music-bot-architecture.md](docs/discord-music-bot-architecture.md) orientado a diseño y evolución

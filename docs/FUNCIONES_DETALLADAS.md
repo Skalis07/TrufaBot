@@ -12,7 +12,7 @@ Este documento es la referencia tecnica detallada de todos los archivos `.ts` y 
 1. Empieza por `src/index.ts`.
 2. Sigue por `src/modules/music/commands/*` y `src/modules/music/handlers/*`.
 3. Luego ve a `src/modules/music/services/*`.
-4. Usa `docs/GUIA-HISTORICA.md` como linea de tiempo macro.
+4. Usa [docs/GUIA-HISTORICA.md](GUIA-HISTORICA.md) como linea de tiempo macro.
 
 ## Detalle ultra por archivo
 
@@ -10651,4 +10651,4 @@ async handleWelcome(interaction: ChatInputCommandInteraction): Promise<void>
 
 - Regenera este archivo cuando cambie cualquier `.ts` o `.mjs` de `src/` o `scripts/`.
 - Script recomendado: `node scripts/generate-function-docs.mjs`.
-- Inventario estructurado sincronizado: `docs/function-inventory.json`.
+- Inventario estructurado sincronizado: [docs/function-inventory.json](function-inventory.json).
