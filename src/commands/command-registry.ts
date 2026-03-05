@@ -1,11 +1,14 @@
-import { helpCommand } from './help.js';
-import { pingCommand } from './ping.js';
+/**
+ * @file src/commands/command-registry.ts
+ * @description Centraliza la lista de comandos disponibles y expone el registro para resolucion en runtime.
+ */
 import type { AppCommand } from './command.js';
-import { uptimeCommand } from './uptime.js';
+import { utilityCommands } from '../modules/utility/index.js';
+import { musicCommands } from '../modules/music/commands/index.js';
 
 // Fuente unica de verdad de comandos.
-// Si agregas un nuevo comando, solo debes importarlo y sumarlo aqui.
-export const commandList: AppCommand[] = [pingCommand, helpCommand, uptimeCommand];
+// Cada modulo exporta su arreglo y el registry solo compone esos bloques.
+export const commandList: AppCommand[] = [...utilityCommands, ...musicCommands];
 
 // Guardia defensiva para evitar nombres duplicados.
 const names = new Set<string>();

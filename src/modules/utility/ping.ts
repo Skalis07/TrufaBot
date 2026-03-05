@@ -1,10 +1,15 @@
+/**
+ * @file src/modules/utility/ping.ts
+ * @description Comando ping: diagnostico rapido de latencia y estado basico.
+ */
 import type { ChatInputCommandInteraction } from 'discord.js';
 import { SlashCommandBuilder } from 'discord.js';
-import type { AppCommand } from './command.js';
+import type { AppCommand } from '../../commands/command.js';
 // Importamos:
 // - ChatInputCommandInteraction: tipo del slash command ya ejecutado.
 // - SlashCommandBuilder: constructor para definir el comando que se registra.
 
+// Ejecuta /ping y responde con latencia de gateway (WS) y round-trip aproximado (HTTP).
 export async function handlePing(interaction: ChatInputCommandInteraction): Promise<void> {
   // Handler que se ejecuta cuando un usuario usa /ping.
   // Es async porque reply() devuelve Promise.

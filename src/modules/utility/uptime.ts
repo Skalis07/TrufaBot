@@ -1,11 +1,15 @@
+/**
+ * @file src/modules/utility/uptime.ts
+ * @description Comando uptime: reporta tiempo de actividad del bot en formato legible.
+ */
 import type { ChatInputCommandInteraction } from 'discord.js';
-import { MessageFlags, SlashCommandBuilder } from 'discord.js';
-import type { AppCommand } from './command.js';
+import { SlashCommandBuilder } from 'discord.js';
+import type { AppCommand } from '../../commands/command.js';
 // Importamos:
 // - ChatInputCommandInteraction: tipo del slash command ya ejecutado.
 // - SlashCommandBuilder: constructor para definir el comando que se registra.
-// - MessageFlags: permite marcar respuestas efimeras sin usar `ephemeral` (deprecated).
 
+// Convierte milisegundos en una cadena corta legible (d/h/m/s) para respuestas de estado.
 function formatDuration(ms: number): string {
   // Funcion helper para convertir milisegundos a un formato legible.
   // Ejemplo: 93784000 ms -> "1d 2h 3m 4s"
@@ -44,6 +48,7 @@ function formatDuration(ms: number): string {
   // Unimos las partes con espacios.
 }
 
+// Handler de comando: transforma la peticion del usuario en una accion de negocio.
 export async function handleUptime(interaction: ChatInputCommandInteraction): Promise<void> {
   // Handler que se ejecuta cuando un usuario usa /uptime.
   // Es async porque reply() devuelve Promise.
@@ -55,19 +60,21 @@ export async function handleUptime(interaction: ChatInputCommandInteraction): Pr
   const text = formatDuration(uptimeMs);
   // Formateamos el tiempo a un string legible.
 
+  const startedAtUnix = Math.floor(Date.now() / 1000 - process.uptime());
+  // Timestamp aproximado de arranque del proceso para mostrar fecha/hora en Discord.
+
   await interaction.reply({
-    content: `Uptime: ${text}`,
-    flags: MessageFlags.Ephemeral,
+    content: `Tiempo encendido: **${text}** | Iniciado: <t:${startedAtUnix}:F>`,
   });
   // Respondemos al slash command.
-  // flags: Ephemeral hace que solo el usuario vea la respuesta.
+  // A diferencia del /help, esta respuesta es publica (como /ping).
 }
 
 export const uptimeCommand: AppCommand = {
   name: 'uptime',
   data: new SlashCommandBuilder()
     .setName('uptime')
-    .setDescription('Muestra cuanto tiempo lleva encendido el bot'),
+    .setDescription('Muestra el tiempo encendido del bot y la hora de inicio'),
   // Definimos el comando slash:
   // - setName('uptime'): el usuario escribira /uptime
   // - setDescription(...): texto visible en Discord cuando aparece el comando.
