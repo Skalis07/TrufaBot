@@ -4,7 +4,6 @@
  * @description Genera inventario y documentacion detallada de funciones para src/ y scripts/.
  *
  * Generates:
- * - docs/function-inventory.json (structured inventory)
  * - docs/FUNCIONES_DETALLADAS.md (ultra detailed markdown)
  *
  * Scope: all .ts and .mjs files under src/ and scripts/ (excluding .d.ts)
@@ -16,7 +15,6 @@ import ts from 'typescript';
 
 const ROOT = process.cwd();
 const TARGET_DIRS = ['src', 'scripts'];
-const OUT_INVENTORY = path.join(ROOT, 'docs', 'function-inventory.json');
 const OUT_MARKDOWN = path.join(ROOT, 'docs', 'FUNCIONES_DETALLADAS.md');
 
 const SIDE_EFFECT_RULES = [
@@ -779,7 +777,6 @@ function renderMarkdownDetailed(filesData) {
   out.push('');
   out.push('- Regenera este archivo cuando cambie cualquier `.ts` o `.mjs` de `src/` o `scripts/`.');
   out.push('- Script recomendado: `node scripts/generate-function-docs.mjs`.');
-  out.push('- Inventario estructurado sincronizado: `docs/function-inventory.json`.');
   out.push('');
 
   return out.join('\n');
@@ -817,15 +814,11 @@ async function main() {
     parsed.push(extractSymbolsFromFile(abs, sourceFile, checker));
   }
 
-  const inventoryLegacyShape = parsed.map((p) => p.legacy);
-  await fs.writeFile(OUT_INVENTORY, `${JSON.stringify(inventoryLegacyShape, null, 2)}\n`, 'utf8');
-
   const markdown = renderMarkdownDetailed(parsed);
   await fs.writeFile(OUT_MARKDOWN, markdown, 'utf8');
 
   const symbolCount = parsed.reduce((acc, f) => acc + f.symbols.length, 0);
   console.log(`Generated docs for ${parsed.length} files (${symbolCount} symbols).`);
-  console.log(`- ${toPosix(path.relative(ROOT, OUT_INVENTORY))}`);
   console.log(`- ${toPosix(path.relative(ROOT, OUT_MARKDOWN))}`);
 }
 

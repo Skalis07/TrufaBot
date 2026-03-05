@@ -2,7 +2,7 @@
 
 Este documento es la referencia tecnica detallada de todos los archivos `.ts` y `.mjs` del proyecto.
 
-- Generado automaticamente: `2026-03-04T20:25:26.335Z`
+- Generado automaticamente: `2026-03-05T03:01:41.145Z`
 - Archivos analizados: `69`
 - Simbolos detectados (funciones/metodos/getters/setters): `373`
 - Clases detectadas: `27`
@@ -12,7 +12,7 @@ Este documento es la referencia tecnica detallada de todos los archivos `.ts` y 
 1. Empieza por `src/index.ts`.
 2. Sigue por `src/modules/music/commands/*` y `src/modules/music/handlers/*`.
 3. Luego ve a `src/modules/music/services/*`.
-4. Usa [docs/GUIA-HISTORICA.md](GUIA-HISTORICA.md) como linea de tiempo macro.
+4. Usa `docs/GUIA-HISTORICA.md` como linea de tiempo macro.
 
 ## Detalle ultra por archivo
 
@@ -391,41 +391,41 @@ async main(): Promise<void>
 
 | # | Linea | Tipo | Simbolo |
 | ---: | ---: | --- | --- |
-| 1 | 31 | `function` | `toPosix` |
-| 2 | 36 | `function` | `exists` |
-| 3 | 46 | `function` | `walkSourceFiles` |
-| 4 | 50 | `function` | `walk` |
-| 5 | 78 | `function` | `getNodeLine` |
-| 6 | 84 | `function` | `getNodeEndLine` |
-| 7 | 90 | `function` | `getNodeText` |
-| 8 | 95 | `function` | `getExpressionText` |
-| 9 | 100 | `function` | `getCallName` |
-| 10 | 117 | `function` | `getNodeParameters` |
-| 11 | 142 | `function` | `getNodeReturnType` |
-| 12 | 163 | `function` | `hasAsyncModifier` |
-| 13 | 168 | `function` | `getAccessModifier` |
-| 14 | 182 | `function` | `findFileDescription` |
-| 15 | 191 | `function` | `toSingleLineCommentText` |
-| 16 | 206 | `function` | `getLeadingCommentSummary` |
-| 17 | 237 | `function` | `normalizeSignatureText` |
-| 18 | 242 | `function` | `buildSymbolSignature` |
-| 19 | 264 | `function` | `analyzeFunctionBody` |
-| 20 | 288 | `function` | `visit` |
-| 21 | 373 | `function` | `buildFunctionRecord` |
-| 22 | 409 | `function` | `safeNodeName` |
-| 23 | 417 | `function` | `getCommentHostForVariableDeclaration` |
-| 24 | 429 | `function` | `extractSymbolsFromFile` |
-| 25 | 438 | `function` | `visit` |
-| 26 | 621 | `function` | `renderParamsTable` |
-| 27 | 636 | `function` | `inferFunctionalSummary` |
-| 28 | 671 | `function` | `renderSymbolDetail` |
-| 29 | 720 | `function` | `renderMarkdownDetailed` |
-| 30 | 789 | `function` | `main` |
+| 1 | 29 | `function` | `toPosix` |
+| 2 | 34 | `function` | `exists` |
+| 3 | 44 | `function` | `walkSourceFiles` |
+| 4 | 48 | `function` | `walk` |
+| 5 | 76 | `function` | `getNodeLine` |
+| 6 | 82 | `function` | `getNodeEndLine` |
+| 7 | 88 | `function` | `getNodeText` |
+| 8 | 93 | `function` | `getExpressionText` |
+| 9 | 98 | `function` | `getCallName` |
+| 10 | 115 | `function` | `getNodeParameters` |
+| 11 | 140 | `function` | `getNodeReturnType` |
+| 12 | 161 | `function` | `hasAsyncModifier` |
+| 13 | 166 | `function` | `getAccessModifier` |
+| 14 | 180 | `function` | `findFileDescription` |
+| 15 | 189 | `function` | `toSingleLineCommentText` |
+| 16 | 204 | `function` | `getLeadingCommentSummary` |
+| 17 | 235 | `function` | `normalizeSignatureText` |
+| 18 | 240 | `function` | `buildSymbolSignature` |
+| 19 | 262 | `function` | `analyzeFunctionBody` |
+| 20 | 286 | `function` | `visit` |
+| 21 | 371 | `function` | `buildFunctionRecord` |
+| 22 | 407 | `function` | `safeNodeName` |
+| 23 | 415 | `function` | `getCommentHostForVariableDeclaration` |
+| 24 | 427 | `function` | `extractSymbolsFromFile` |
+| 25 | 436 | `function` | `visit` |
+| 26 | 619 | `function` | `renderParamsTable` |
+| 27 | 634 | `function` | `inferFunctionalSummary` |
+| 28 | 669 | `function` | `renderSymbolDetail` |
+| 29 | 718 | `function` | `renderMarkdownDetailed` |
+| 30 | 786 | `function` | `main` |
 
 #### Detalle por simbolo
 
 #### 1) `toPosix` (`function`)
-- Lineas: `31` -> `33`
+- Lineas: `29` -> `31`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Funcion de soporte del modulo; revisar llamadas y efectos para ubicar su rol exacto en el flujo.
@@ -447,7 +447,7 @@ toPosix(filePath: inferido): any
   - ninguno
 
 #### 2) `exists` (`function`)
-- Lineas: `36` -> `43`
+- Lineas: `34` -> `41`
 - Acceso: `public`
 - Async: si
 - Resumen funcional: Funcion de soporte del modulo; revisar llamadas y efectos para ubicar su rol exacto en el flujo.
@@ -469,7 +469,7 @@ async exists(p: inferido): Promise<boolean>
   - ninguno
 
 #### 3) `walkSourceFiles` (`function`)
-- Lineas: `46` -> `75`
+- Lineas: `44` -> `73`
 - Acceso: `public`
 - Async: si
 - Resumen funcional: Funcion de soporte del modulo; revisar llamadas y efectos para ubicar su rol exacto en el flujo.
@@ -491,7 +491,7 @@ async walkSourceFiles(startDir: inferido): Promise<any[]>
   - ninguno
 
 #### 4) `walk` (`function`)
-- Lineas: `50` -> `71`
+- Lineas: `48` -> `69`
 - Acceso: `public`
 - Async: si
 - Resumen funcional: Funcion de soporte del modulo; revisar llamadas y efectos para ubicar su rol exacto en el flujo.
@@ -513,7 +513,7 @@ async walk(dir: inferido): Promise<void>
   - ninguno
 
 #### 5) `getNodeLine` (`function`)
-- Lineas: `78` -> `81`
+- Lineas: `76` -> `79`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Consulta estado o evalua una condicion sin mutar datos principales.
@@ -536,7 +536,7 @@ getNodeLine(sourceFile: inferido, node: inferido): any
   - ninguno
 
 #### 6) `getNodeEndLine` (`function`)
-- Lineas: `84` -> `87`
+- Lineas: `82` -> `85`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Consulta estado o evalua una condicion sin mutar datos principales.
@@ -559,7 +559,7 @@ getNodeEndLine(sourceFile: inferido, node: inferido): any
   - ninguno
 
 #### 7) `getNodeText` (`function`)
-- Lineas: `90` -> `92`
+- Lineas: `88` -> `90`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Consulta estado o evalua una condicion sin mutar datos principales.
@@ -582,7 +582,7 @@ getNodeText(sourceFile: inferido, node: inferido): any
   - ninguno
 
 #### 8) `getExpressionText` (`function`)
-- Lineas: `95` -> `97`
+- Lineas: `93` -> `95`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Consulta estado o evalua una condicion sin mutar datos principales.
@@ -605,7 +605,7 @@ getExpressionText(sourceFile: inferido, expr: inferido): any
   - ninguno
 
 #### 9) `getCallName` (`function`)
-- Lineas: `100` -> `114`
+- Lineas: `98` -> `112`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Consulta estado o evalua una condicion sin mutar datos principales.
@@ -628,7 +628,7 @@ getCallName(sourceFile: inferido, expr: inferido): any
   - ninguno
 
 #### 10) `getNodeParameters` (`function`)
-- Lineas: `117` -> `139`
+- Lineas: `115` -> `137`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Consulta estado o evalua una condicion sin mutar datos principales.
@@ -664,7 +664,7 @@ getNodeParameters(sourceFile: inferido, checker: inferido, node: inferido): any
   - ninguno
 
 #### 11) `getNodeReturnType` (`function`)
-- Lineas: `142` -> `160`
+- Lineas: `140` -> `158`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Consulta estado o evalua una condicion sin mutar datos principales.
@@ -688,7 +688,7 @@ getNodeReturnType(sourceFile: inferido, checker: inferido, node: inferido): any
   - ninguno
 
 #### 12) `hasAsyncModifier` (`function`)
-- Lineas: `163` -> `165`
+- Lineas: `161` -> `163`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Consulta estado o evalua una condicion sin mutar datos principales.
@@ -710,7 +710,7 @@ hasAsyncModifier(node: inferido): boolean
   - ninguno
 
 #### 13) `getAccessModifier` (`function`)
-- Lineas: `168` -> `179`
+- Lineas: `166` -> `177`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Consulta estado o evalua una condicion sin mutar datos principales.
@@ -732,7 +732,7 @@ getAccessModifier(node: inferido): "public" | "private" | "protected"
   - ninguno
 
 #### 14) `findFileDescription` (`function`)
-- Lineas: `182` -> `188`
+- Lineas: `180` -> `186`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Funcion de soporte del modulo; revisar llamadas y efectos para ubicar su rol exacto en el flujo.
@@ -754,7 +754,7 @@ findFileDescription(sourceText: inferido): any
   - ninguno
 
 #### 15) `toSingleLineCommentText` (`function`)
-- Lineas: `191` -> `203`
+- Lineas: `189` -> `201`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Funcion de soporte del modulo; revisar llamadas y efectos para ubicar su rol exacto en el flujo.
@@ -812,7 +812,7 @@ toSingleLineCommentText(raw: inferido): any
   - ninguno
 
 #### 16) `getLeadingCommentSummary` (`function`)
-- Lineas: `206` -> `234`
+- Lineas: `204` -> `232`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Consulta estado o evalua una condicion sin mutar datos principales.
@@ -835,7 +835,7 @@ getLeadingCommentSummary(sourceFile: inferido, node: inferido): any
   - ninguno
 
 #### 17) `normalizeSignatureText` (`function`)
-- Lineas: `237` -> `239`
+- Lineas: `235` -> `237`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Transforma o valida datos de entrada para que el resto del flujo trabaje con una forma estable.
@@ -857,7 +857,7 @@ normalizeSignatureText(raw: inferido): any
   - ninguno
 
 #### 18) `buildSymbolSignature` (`function`)
-- Lineas: `242` -> `261`
+- Lineas: `240` -> `259`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Construye estructuras/payloads reutilizables para responder o continuar el flujo.
@@ -885,7 +885,7 @@ buildSymbolSignature(sourceFile: inferido, checker: inferido, node: inferido, di
   - ninguno
 
 #### 19) `analyzeFunctionBody` (`function`)
-- Lineas: `264` -> `370`
+- Lineas: `262` -> `368`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Funcion de soporte del modulo; revisar llamadas y efectos para ubicar su rol exacto en el flujo.
@@ -908,7 +908,7 @@ analyzeFunctionBody(sourceFile: inferido, node: inferido): { calls: any[]; await
   - ninguno
 
 #### 20) `visit` (`function`)
-- Lineas: `288` -> `335`
+- Lineas: `286` -> `333`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Funcion de soporte del modulo; revisar llamadas y efectos para ubicar su rol exacto en el flujo.
@@ -930,7 +930,7 @@ visit(n: inferido): void
   - ninguno
 
 #### 21) `buildFunctionRecord` (`function`)
-- Lineas: `373` -> `406`
+- Lineas: `371` -> `404`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Construye estructuras/payloads reutilizables para responder o continuar el flujo.
@@ -959,7 +959,7 @@ buildFunctionRecord(sourceFile: inferido, checker: inferido, fileRel: inferido, 
   - ninguno
 
 #### 22) `safeNodeName` (`function`)
-- Lineas: `409` -> `414`
+- Lineas: `407` -> `412`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Funcion de soporte del modulo; revisar llamadas y efectos para ubicar su rol exacto en el flujo.
@@ -981,7 +981,7 @@ safeNodeName(nameNode: inferido): any
   - ninguno
 
 #### 23) `getCommentHostForVariableDeclaration` (`function`)
-- Lineas: `417` -> `426`
+- Lineas: `415` -> `424`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Consulta estado o evalua una condicion sin mutar datos principales.
@@ -1003,7 +1003,7 @@ getCommentHostForVariableDeclaration(node: inferido): any
   - ninguno
 
 #### 24) `extractSymbolsFromFile` (`function`)
-- Lineas: `429` -> `618`
+- Lineas: `427` -> `616`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Transforma o valida datos de entrada para que el resto del flujo trabaje con una forma estable.
@@ -1027,7 +1027,7 @@ extractSymbolsFromFile(fileAbs: inferido, sourceFile: inferido, checker: inferid
   - ninguno
 
 #### 25) `visit` (`function`)
-- Lineas: `438` -> `594`
+- Lineas: `436` -> `592`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Funcion de soporte del modulo; revisar llamadas y efectos para ubicar su rol exacto en el flujo.
@@ -1049,7 +1049,7 @@ visit(node: inferido): void
   - ninguno
 
 #### 26) `renderParamsTable` (`function`)
-- Lineas: `621` -> `633`
+- Lineas: `619` -> `631`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Funcion de soporte del modulo; revisar llamadas y efectos para ubicar su rol exacto en el flujo.
@@ -1071,7 +1071,7 @@ renderParamsTable(params: inferido): string
   - ninguno
 
 #### 27) `inferFunctionalSummary` (`function`)
-- Lineas: `636` -> `668`
+- Lineas: `634` -> `666`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Funcion de soporte del modulo; revisar llamadas y efectos para ubicar su rol exacto en el flujo.
@@ -1093,7 +1093,7 @@ inferFunctionalSummary(sym: inferido): "Punto de entrada del flujo: recibe una i
   - ninguno
 
 #### 28) `renderSymbolDetail` (`function`)
-- Lineas: `671` -> `717`
+- Lineas: `669` -> `715`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Funcion de soporte del modulo; revisar llamadas y efectos para ubicar su rol exacto en el flujo.
@@ -1116,7 +1116,7 @@ renderSymbolDetail(sym: inferido, index: inferido): string
   - ninguno
 
 #### 29) `renderMarkdownDetailed` (`function`)
-- Lineas: `720` -> `786`
+- Lineas: `718` -> `783`
 - Acceso: `public`
 - Async: no
 - Resumen funcional: Funcion de soporte del modulo; revisar llamadas y efectos para ubicar su rol exacto en el flujo.
@@ -1138,7 +1138,7 @@ renderMarkdownDetailed(filesData: inferido): string
   - ninguno
 
 #### 30) `main` (`function`)
-- Lineas: `789` -> `830`
+- Lineas: `786` -> `823`
 - Acceso: `public`
 - Async: si
 - Resumen funcional: Funcion de soporte del modulo; revisar llamadas y efectos para ubicar su rol exacto en el flujo.
@@ -1150,7 +1150,7 @@ async main(): Promise<void>
 - Parametros: ninguno.
 - Retorno: `Promise<void>`
 - Complejidad estimada (ramas): `4`
-- Llamadas principales detectadas: `path.join`, `exists`, `inputFiles.push`, `walkSourceFiles`, `inputFiles.sort`, `toPosix(path.relative(ROOT, a)).localeCompare`, `toPosix`, `path.relative`, `ts.createProgram`, `program.getTypeChecker`, `program.getSourceFile`, `parsed.push`, `extractSymbolsFromFile`, `parsed.map`
+- Llamadas principales detectadas: `path.join`, `exists`, `inputFiles.push`, `walkSourceFiles`, `inputFiles.sort`, `toPosix(path.relative(ROOT, a)).localeCompare`, `toPosix`, `path.relative`, `ts.createProgram`, `program.getTypeChecker`, `program.getSourceFile`, `parsed.push`, `extractSymbolsFromFile`, `renderMarkdownDetailed`
 - Await detectados: `exists`, `walkSourceFiles`, `fs.writeFile`
 - Efectos secundarios detectados: `playback_control`, `state_mutation`
 - Control de errores: 0 throw(s), 0 catch(es)
@@ -10651,4 +10651,3 @@ async handleWelcome(interaction: ChatInputCommandInteraction): Promise<void>
 
 - Regenera este archivo cuando cambie cualquier `.ts` o `.mjs` de `src/` o `scripts/`.
 - Script recomendado: `node scripts/generate-function-docs.mjs`.
-- Inventario estructurado sincronizado: [docs/function-inventory.json](function-inventory.json).

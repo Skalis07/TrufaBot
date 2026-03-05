@@ -275,15 +275,14 @@ Estado actual despues de la limpieza aplicada:
 
 ## 8) Catalogo tecnico relacionado
 
-Para mantener esta guia legible y evitar desalineaciones por numeros de linea, el inventario completo de funciones se mantiene en archivos separados:
+Para mantener esta guia legible y evitar desalineaciones por numeros de linea, el inventario completo de funciones se mantiene en:
 
 - [docs/FUNCIONES_DETALLADAS.md](FUNCIONES_DETALLADAS.md): detalle archivo por archivo y funcion por funcion (`src/` + `scripts/`, `.ts`/`.mjs`).
-- [docs/function-inventory.json](function-inventory.json): inventario estructurado de los mismos archivos para busquedas/automatizacion.
 
 Regla de mantenimiento:
 
 1. Cuando cambie comportamiento en servicios/comandos, actualizar primero [GUIA-HISTORICA.md](GUIA-HISTORICA.md) (flujo).
-2. Luego sincronizar [FUNCIONES_DETALLADAS.md](FUNCIONES_DETALLADAS.md) y [function-inventory.json](function-inventory.json).
+2. Luego sincronizar [FUNCIONES_DETALLADAS.md](FUNCIONES_DETALLADAS.md).
 
 Con esto, [GUIA-HISTORICA.md](GUIA-HISTORICA.md) sigue enfocada en linea de tiempo, y el detalle fino vive donde corresponde.
 

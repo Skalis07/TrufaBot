@@ -24,11 +24,9 @@ Incluye un módulo de música con panel interactivo, autoplay con prefetch, sopo
 
 El proyecto está pensado como base escalable para seguir agregando módulos y comandos sin romper la estructura actual.
 
-Si tu objetivo es **estudiar el proyecto completo** (incluyendo flujo real, debugging y arquitectura del módulo de música), el documento principal es:
+Documentación principal del proyecto:
 
 - [docs/GUIA-HISTORICA.md](docs/GUIA-HISTORICA.md)
-
-Si solo le vas a pasar **un archivo** a un junior para entender el proyecto de punta a punta, pasa [docs/GUIA-HISTORICA.md](docs/GUIA-HISTORICA.md).
 
 ---
 
@@ -49,10 +47,10 @@ También funciona como práctica avanzada de backend/eventos, manejo de estados 
 
 Para el detalle completo de arquitectura, flujo interno y evolución del proyecto:
 
-- [docs/GUIA-HISTORICA.md](docs/GUIA-HISTORICA.md) (documento maestro: setup + historia + flujo + troubleshooting + onboarding archivo por archivo)
+- [docs/GUIA-HISTORICA.md](docs/GUIA-HISTORICA.md) (documento maestro: setup + historia + flujo + troubleshooting)
 - [docs/discord-music-bot-architecture.md](docs/discord-music-bot-architecture.md) (visión macro / diseño arquitectónico y roadmap técnico)
 
-### Orden recomendado de lectura (GitHub / onboarding)
+### Orden recomendado de lectura (GitHub)
 
 1. [README.md](README.md) (esta portada)
 2. [docs/GUIA-HISTORICA.md](docs/GUIA-HISTORICA.md) (lectura principal; suficiente para entender el proyecto completo)
