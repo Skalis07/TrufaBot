@@ -4,7 +4,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6)
 ![discord.js](https://img.shields.io/badge/discord.js-v14-5865F2)
 ![DisTube](https://img.shields.io/badge/Music-DisTube-orange)
-![Status](https://img.shields.io/badge/Status-MVP%20funcional-brightgreen)
+![Status](https://img.shields.io/badge/Status-Funcional-brightgreen)
 ![Type](https://img.shields.io/badge/Bot-Discord%20Music%20Bot-purple)
 
 ## 📸 Vista previa
@@ -311,7 +311,7 @@ node scripts/music-playlist-smoke-test.mjs
 
 ## 📌 Estado actual
 
-Proyecto en estado **MVP funcional**, con foco actual en:
+Proyecto en estado **funcional**, con foco actual en:
 
 - estabilidad del autoplay y de los fallbacks,
 - mejoras de UX del panel,
