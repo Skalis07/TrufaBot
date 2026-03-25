@@ -6,7 +6,7 @@ import "dotenv/config";
 // Carga automaticamente variables de .env en process.env.
 // Sin esto, DISCORD_TOKEN/CLIENT_ID/GUILD_IDS pueden venir undefined.
 
-import { REST, Routes } from "discord.js";
+import { DiscordAPIError, REST, Routes } from "discord.js";
 // REST: cliente HTTP para pegarle a la API de Discord.
 // Routes: helpers para construir endpoints correctos.
 
@@ -31,16 +31,49 @@ const guildIds = guildIdsRaw
 // Permitimos uno o varios guild IDs separados por coma.
 // trim() limpia espacios, filter(Boolean) quita vacios.
 
+if (guildIds.length === 0) {
+  throw new Error("GUILD_IDS no contiene IDs validos");
+}
+
 const rest = new REST({ version: "10" }).setToken(token);
 // Cliente REST de Discord API v10 autenticado con token de bot.
 
-for (const guildId of guildIds) {
-  await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
-    body: commandJson,
-  });
-  // applicationGuildCommands = registro en servidor especifico (rapido).
-  // PUT reemplaza el set completo de comandos de esa app en ese guild.
+const failedGuildIds: string[] = [];
 
-  console.log(`Comandos registrados en guild ${guildId}`);
-  // Log de control para confirmar en que guild quedo registrado.
+for (const guildId of guildIds) {
+  try {
+    await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
+      body: commandJson,
+    });
+    // applicationGuildCommands = registro en servidor especifico (rapido).
+    // PUT reemplaza el set completo de comandos de esa app en ese guild.
+
+    console.log(`Comandos registrados en guild ${guildId}`);
+    // Log de control para confirmar en que guild quedo registrado.
+  } catch (error) {
+    failedGuildIds.push(guildId);
+
+    if (error instanceof DiscordAPIError) {
+      console.error(
+        `No se pudieron registrar comandos en guild ${guildId}: ${error.code} ${error.message}`,
+      );
+      continue;
+    }
+
+    if (error instanceof Error) {
+      console.error(
+        `Error inesperado al registrar comandos en guild ${guildId}: ${error.message}`,
+      );
+      continue;
+    }
+
+    console.error(`Error inesperado al registrar comandos en guild ${guildId}`);
+  }
+}
+
+if (failedGuildIds.length > 0) {
+  console.error(
+    `Registro incompleto. Guilds con error: ${failedGuildIds.join(", ")}`,
+  );
+  process.exitCode = 1;
 }
