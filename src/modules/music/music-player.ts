@@ -15,6 +15,24 @@ import { musicService } from './services/music-service.js';
 
 let musicPlayer: DisTube | null = null;
 
+const MAX_ERROR_DIAGNOSTIC_LENGTH = 4_000;
+const ACTIONABLE_FFMPEG_DIAGNOSTIC =
+  /\b(?:error|failed|failure|forbidden|unauthorized|invalid|unable)\b|\bserver returned\b|\bhttp(?:\/\S+|\s+status)?\s*[:=]?\s*[45]\d{2}\b|\bexit(?:ed)? with code\b/iu;
+
+function sanitizeErrorDiagnostic(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+
+  const sanitized = value
+    .replace(/\bhttps?:\/\/[^\s'"]+/giu, '[redacted-url]')
+    .replace(/\b(authorization|proxy-authorization|cookie|set-cookie)\s*[:=]\s*[^\r\n]*/giu, '$1=[redacted]')
+    .replace(/\bbearer\s+\S+/giu, 'Bearer [redacted]')
+    .replace(/\b(token|access[_-]?token|refresh[_-]?token|api[_-]?key|signature|sig)\s*[:=]\s*[^\s,;&]+/giu, '$1=[redacted]');
+
+  return sanitized.length > MAX_ERROR_DIAGNOSTIC_LENGTH
+    ? `${sanitized.slice(0, MAX_ERROR_DIAGNOSTIC_LENGTH)}...[truncated]`
+    : sanitized;
+}
+
 // Funcion de soporte del modulo.
 function createSpotifyPlugin(): SpotifyPlugin {
   // Si el usuario configura credenciales de Spotify en `.env`, las usamos para
@@ -53,6 +71,18 @@ function createYouTubeExtractorPluginForSearchOnly(): YouTubePlugin {
 function registerMusicEvents(player: DisTube): void {
   // Cada evento relevante sincroniza el mensaje de control para mantener UI + estado
   // siempre alineados sin que cada comando tenga que reconstruir todo manualmente.
+  player.on(Events.FFMPEG_DEBUG, (debug) => {
+    if (debug.includes('[process] spawn:') || !ACTIONABLE_FFMPEG_DIAGNOSTIC.test(debug)) return;
+
+    musicLogger.warn(
+      {
+        event: 'ffmpeg_diagnostic',
+        diagnostic: sanitizeErrorDiagnostic(debug),
+      },
+      'ffmpeg playback diagnostic',
+    );
+  });
+
   player.on(Events.PLAY_SONG, async (queue) => {
     // Si habia un mensaje efimero "consiguiendo recomendacion...", lo limpiamos cuando
     // efectivamente empieza la nueva pista (sin listeners extra en DisTube).
@@ -287,12 +317,31 @@ function registerMusicEvents(player: DisTube): void {
       musicService.clearAutoplayPrefetch(queue.id, 'distube_error');
       musicService.clearProgressivePlaylistLoad(queue.id, 'distube_error');
     }
+    const errorWithCode = error as Error & { code?: unknown; errorCode?: unknown };
+    const rawErrorCode = errorWithCode.code ?? errorWithCode.errorCode;
+    const rawErrorCause = error.cause;
+    const errorCause =
+      rawErrorCause instanceof Error
+        ? sanitizeErrorDiagnostic(`${rawErrorCause.name}: ${rawErrorCause.message}`)
+        : typeof rawErrorCause === 'string'
+          ? sanitizeErrorDiagnostic(rawErrorCause)
+          : undefined;
+
     musicLogger.error(
       {
         event: 'distube_error',
         guildId: queue?.id,
         song: queue?.songs?.[0]?.name,
-        errorMessage: error.message,
+        errorName: sanitizeErrorDiagnostic(error.name),
+        errorCode:
+          typeof rawErrorCode === 'number'
+            ? rawErrorCode
+            : typeof rawErrorCode === 'string'
+              ? sanitizeErrorDiagnostic(rawErrorCode)
+              : undefined,
+        errorMessage: sanitizeErrorDiagnostic(error.message),
+        errorStack: sanitizeErrorDiagnostic(error.stack),
+        errorCause,
       },
       'distube error',
     );
