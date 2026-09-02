@@ -11,6 +11,11 @@ import type { ButtonInteraction, ChatInputCommandInteraction } from 'discord.js'
 // Events: enum con nombres de eventos oficiales.
 // GatewayIntentBits: permisos de eventos que recibira el bot.
 // MessageFlags: permite marcar respuestas como efimeras sin usar la opcion deprecated `ephemeral`.
+import {
+  createCommandRegistrationRest,
+  formatGuildCommandRegistrationError,
+  registerGuildCommands,
+} from './commands/command-registration.js';
 import { commandMap } from './commands/command-registry.js';
 // commandMap centraliza el router de comandos en un unico lugar.
 import { handleMusicButtonInteraction } from './modules/music/handlers/button-interaction-handler.js';
@@ -75,6 +80,18 @@ const token = process.env.DISCORD_TOKEN;
 if (!token) throw new Error('DISCORD_TOKEN no definido en .env');
 // Validacion minima para evitar login(undefined).
 
+const commandRegistrationRest = createCommandRegistrationRest(token);
+let applicationId: string | null = null;
+
+async function syncGuildCommands(clientId: string, guildId: string): Promise<void> {
+  try {
+    await registerGuildCommands(commandRegistrationRest, clientId, guildId);
+    console.log(`Comandos registrados en guild ${guildId}`);
+  } catch (error) {
+    console.error(formatGuildCommandRegistrationError(guildId, error));
+  }
+}
+
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
 });
@@ -83,8 +100,13 @@ const client = new Client({
 initializeMusicPlayer(client);
 // Inicializamos Distube una sola vez sobre el mismo Client de Discord.
 
-client.once(Events.ClientReady, (readyClient) => {
+client.once(Events.ClientReady, async (readyClient) => {
+  applicationId = readyClient.application.id;
   console.log(`Bot listo como ${readyClient.user.tag}`);
+
+  for (const guild of readyClient.guilds.cache.values()) {
+    await syncGuildCommands(applicationId, guild.id);
+  }
 });
 // once() para evento de arranque: queremos loguear solo una vez.
 
@@ -95,6 +117,10 @@ client.on(Events.Error, (error) => {
 
 client.on(Events.GuildCreate, async (guild) => {
   // Se dispara cuando el bot se une a un servidor nuevo.
+  if (applicationId) {
+    await syncGuildCommands(applicationId, guild.id);
+  }
+
   try {
     await sendGuildWelcomeMessage(guild);
   } catch (error) {
